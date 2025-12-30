@@ -1,0 +1,2420 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELVON - Магазин техники</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #00bcd4;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            color: #00bcd4;
+        }
+
+        .cart-icon {
+            position: relative;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff4081;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1556656793-08538906a9f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background-color: #00bcd4;
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #0097a7;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: 32px;
+            color: #1a237e;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            margin: -20px 0 40px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        /* Товары в 4 колонки */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #ff4081;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .product-badge.top {
+            background-color: #ff9800;
+        }
+
+        .product-badge.new {
+            background-color: #4caf50;
+        }
+
+        .product-badge.hot {
+            background-color: #f44336;
+        }
+
+        .product-image {
+            height: 220px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-icon {
+            font-size: 70px;
+            color: #1a237e;
+            opacity: 0.9;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #333;
+            height: 55px;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        .product-brand {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            height: 42px;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price-amount {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a237e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .old-price {
+            font-size: 16px;
+            color: #999;
+            text-decoration: line-through;
+            font-weight: 500;
+        }
+
+        .discount-badge {
+            background-color: #ff4081;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .usd-toggle {
+            background: none;
+            border: none;
+            color: #00bcd4;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .usd-toggle:hover {
+            background-color: #f0f9ff;
+        }
+
+        .product-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .spec-item {
+            background-color: #f5f5f5;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-to-cart:hover {
+            background: linear-gradient(135deg, #388e3c 0%, #2e7d32 100%);
+            transform: translateY(-2px);
+        }
+
+        .view-details {
+            width: 100%;
+            background-color: transparent;
+            color: #1a237e;
+            border: 2px solid #1a237e;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .view-details:hover {
+            background-color: #1a237e;
+            color: white;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #ff9800;
+            margin-bottom: 8px;
+        }
+
+        .rating-stars {
+            font-size: 14px;
+        }
+
+        .rating-count {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .stock {
+            color: #4caf50;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .stock.out {
+            color: #f44336;
+        }
+
+        /* Категории */
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 40px 0 60px;
+        }
+
+        .category {
+            background-color: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            min-width: 180px;
+            transition: transform 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+            border-color: #00bcd4;
+        }
+
+        .category i {
+            font-size: 40px;
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+
+        .category h3 {
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .category-count {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Фильтры */
+        .filters {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active {
+            background-color: #1a237e;
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .filter-btn.active:hover {
+            background-color: #283593;
+        }
+
+        footer {
+            background-color: #1a237e;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #00bcd4;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #00bcd4;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #283593;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* Модальные окна остаются без изменений */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            animation: modalFade 0.3s;
+        }
+
+        @keyframes modalFade {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .modal-header {
+            background-color: #1a237e;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .order-summary {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .order-summary h4 {
+            margin-bottom: 10px;
+            color: #1a237e;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0 0;
+            font-weight: 700;
+            font-size: 18px;
+            color: #1a237e;
+        }
+
+        .cart-modal .modal-content {
+            max-width: 600px;
+        }
+
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            font-size: 24px;
+            color: #1a237e;
+        }
+
+        .cart-item-title {
+            font-weight: 500;
+        }
+
+        .cart-item-price {
+            font-weight: 600;
+            color: #1a237e;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #f44336;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .cart-total {
+            padding: 20px 0;
+            text-align: right;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a237e;
+            border-top: 2px solid #eee;
+            margin-top: 15px;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: #777;
+        }
+
+        .empty-cart i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        .product-detail-modal .modal-content {
+            max-width: 800px;
+        }
+
+        .product-detail {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .product-detail-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 80px;
+            color: #1a237e;
+        }
+
+        .product-detail-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .product-detail-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .product-detail-description {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .product-detail-price {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a237e;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .features {
+            margin-top: 20px;
+        }
+
+        .features h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .features ul {
+            padding-left: 20px;
+            color: #555;
+        }
+
+        .features li {
+            margin-bottom: 8px;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4caf50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 3000;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {transform: translateX(100%); opacity: 0;}
+            to {transform: translateX(0); opacity: 1;}
+        }
+
+        .admin-link {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #ff9800;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        .warranty-badge {
+            background-color: #00bcd4;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>ELVON</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Главная</a></li>
+                    <li><a href="#products"><i class="fas fa-tv"></i> Техника</a></li>
+                    <li><a href="#categories"><i class="fas fa-list"></i> Категории</a></li>
+                    <li><a href="#contact"><i class="fas fa-phone"></i> Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>ELVON - Магазин техники</h1>
+            <p>Покупайте выгодно уже сегодня! Не упустите возможность - скидки ограничены по времени. Лучшие товары для дома по доступным ценам.</p>
+            <a href="#products" class="btn">Смотреть товары</a>
+        </div>
+    </section>
+
+    <section class="container" id="categories">
+        <h2 class="section-title">Наши категории</h2>
+        <div class="categories">
+            <div class="category">
+                <i class="fas fa-snowflake"></i>
+                <h3>Кондиционеры</h3>
+                <div class="category-count">12 товаров</div>
+            </div>
+            <div class="category">
+                <i class="fas fa-tv"></i>
+                <h3>Телевизоры</h3>
+                <div class="category-count">8 товаров</div>
+            </div>
+            <div class="category">
+                <i class="fas fa-blender"></i>
+                <h3>Кухонная техника</h3>
+                <div class="category-count">25 товаров</div>
+            </div>
+            <div class="category">
+                <i class="fas fa-washer"></i>
+                <h3>Стиральные машины</h3>
+                <div class="category-count">15 товаров</div>
+            </div>
+            <div class="category">
+                <i class="fas fa-ice-cream"></i>
+                <h3>Холодильники</h3>
+                <div class="category-count">18 товаров</div>
+            </div>
+            <div class="category">
+                <i class="fas fa-vacuum"></i>
+                <h3>Пылесосы</h3>
+                <div class="category-count">10 товаров</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="products">
+        <h2 class="section-title">Лучшие товары для дома</h2>
+        <p class="section-subtitle">Более 50 товаров в наличии с гарантией и доставкой</p>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <button class="filter-btn active" onclick="filterProducts('all')">Все товары</button>
+                <button class="filter-btn" onclick="filterProducts('hit')">Хиты продаж</button>
+                <button class="filter-btn" onclick="filterProducts('new')">Новинки</button>
+                <button class="filter-btn" onclick="filterProducts('discount')">Со скидкой</button>
+                <button class="filter-btn" onclick="filterProducts('cheap')">До 5 млн</button>
+                <button class="filter-btn" onclick="filterProducts('expensive')">От 10 млн</button>
+            </div>
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+            <!-- Товары будут загружены через JavaScript -->
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ELVON</h3>
+                    <p>Магазин бытовой техники и электроники. Лучшие цены, гарантия качества.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +998 90 123 45 67</li>
+                        <li><i class="fas fa-envelope"></i> info@elvon.uz</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Ташкент, ул. Техника, 45</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Полезные ссылки</h3>
+                    <ul>
+                        <li><a href="#">О нас</a></li>
+                        <li><a href="#">Доставка и оплата</a></li>
+                        <li><a href="#">Гарантия</a></li>
+                        <li><a href="#">Отзывы</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 ELVON - Магазин техники.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Модальные окна -->
+    <div class="modal product-detail-modal" id="productDetailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="detailTitle">Товар</h2>
+                <button class="close-modal" id="closeDetailModal">&times;</button>
+            </div>
+            <div class="modal-body" id="productDetailBody"></div>
+        </div>
+    </div>
+
+    <div class="modal cart-modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Корзина</h2>
+                <button class="close-modal" id="closeCartModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="cart-items" id="cartItems"></div>
+                <div class="cart-total">
+                    Итого: <span id="cartTotal">0</span> сум
+                </div>
+                <button class="btn" style="width: 100%; margin-top: 20px;" id="checkoutBtn">Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Оформление заказа</h2>
+                <button class="close-modal" id="closeOrderModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-summary" id="orderSummary"></div>
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="name">ФИО *</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Номер телефона *</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Адрес доставки</label>
+                        <textarea id="address"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Комментарий к заказу</label>
+                        <textarea id="comment" placeholder="Дополнительные пожелания..."></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Подтвердить заказ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        Товар добавлен в корзину!
+    </div>
+
+    <a href="admin.html" class="admin-link" target="_blank">
+        <i class="fas fa-cog"></i> Панель диспетчера
+    </a>
+
+    <script>
+        const EXCHANGE_RATE = 12000;
+
+        // БОЛЬШОЙ СПИСОК ТОВАРОВ (50+ товаров)
+        const products = [
+            // ПЫЛЕСОСЫ (10 товаров)
+            {
+                id: 1,
+                title: "Пылесос Ziffin CP-L23P50-GL",
+                price: 1448000,
+                oldPrice: 1550000,
+                description: "Мощный пылесос с системой фильтрации HEPA. Идеально подходит для аллергиков.",
+                features: ["Мощность 2000Вт", "HEPA фильтр", "Контейнер 2л", "5 насадок в комплекте", "Автосмотка шнура"],
+                rating: 4.5,
+                stock: "В наличии",
+                category: "пылесосы",
+                badge: "Хит продаж",
+                icon: "wind",
+                specs: ["2000Вт", "2л", "HEPA"],
+                warranty: "24 мес"
+            },
+            {
+                id: 2,
+                title: "Пылесос с аквафильтром Karcher DS 6",
+                price: 5892800,
+                oldPrice: 6200000,
+                description: "Пылесос с аквафильтром, имеющий три степени очистки воздуха. Очищает воздух на 99.95%.",
+                features: ["Аквафильтр", "3 степени очистки", "Для аллергиков", "Мощный двигатель", "Автоматическая очистка"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "пылесосы",
+                badge: "Топ товар",
+                icon: "wind",
+                specs: ["1800Вт", "Аквафильтр", "99.95%"],
+                warranty: "36 мес"
+            },
+            {
+                id: 3,
+                title: "Пылесос Samsung VC21M50",
+                price: 2150000,
+                oldPrice: 2300000,
+                description: "Циклонный пылесос с мешком для сбора пыли. Тихий и эффективный.",
+                features: ["Циклонная система", "Мешок для пыли", "Регулировка мощности", "Компактный", "Легкий"],
+                rating: 4.3,
+                stock: "В наличии",
+                category: "пылесосы",
+                badge: "",
+                icon: "wind",
+                specs: ["1600Вт", "Циклон", "3.5кг"],
+                warranty: "24 мес"
+            },
+            {
+                id: 4,
+                title: "Робот-пылесос Xiaomi Mi Robot",
+                price: 3850000,
+                oldPrice: 4200000,
+                description: "Умный робот-пылесос с навигацией и управлением через смартфон.",
+                features: ["Управление со смартфона", "Навигация LDS", "Влажная уборка", "Автовозврат", "Голосовое управление"],
+                rating: 4.7,
+                stock: "В наличии",
+                category: "пылесосы",
+                badge: "Новинка",
+                icon: "robot",
+                specs: ["Робот", "Wi-Fi", "Навигация"],
+                warranty: "12 мес"
+            },
+            {
+                id: 5,
+                title: "Пылесос LG CordZero A9",
+                price: 7250000,
+                oldPrice: 7800000,
+                description: "Беспроводной пылесос с мощной батареей и системой автоматической зарядки.",
+                features: ["Беспроводной", "Двойная батарея", "Автозарядка", "Настенное крепление", "Комплект насадок"],
+                rating: 4.6,
+                stock: "В наличии",
+                category: "пылесосы",
+                badge: "Премиум",
+                icon: "wind",
+                specs: ["Беспроводной", "60 мин", "2 батареи"],
+                warranty: "24 мес"
+            },
+            {
+                id: 6,
+                title: "Пылесос Bosch BGS5",
+                price: 1850000,
+                oldPrice: 2000000,
+                description: "Мощный пылесос с аквафильтром и системой защиты от перегрева.",
+                features: ["Аквафильтр", "Защита от перегрева", "Регулятор мощности", "Большие колеса", "Длинный шнур"],
+                rating: 4.4,
+                stock: "В наличии",
+                category: "пылесосы",
+                badge: "Скидка",
+                icon: "wind",
+                specs: ["1700Вт", "Аквафильтр", "8м шнур"],
+                warranty: "24 мес"
+            },
+            {
+                id: 7,
+                title: "Пылесос Thomas Twin X10",
+                price: 6450000,
+                oldPrice: 6900000,
+                description: "Профессиональный пылесос для аллергиков с аквафильтром и HEPA фильтром.",
+                features: ["Двойная фильтрация", "Для аллергиков", "Мощный всас", "Большой бак", "Тихий"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "пылесосы",
+                badge: "Топ товар",
+                icon: "wind",
+                specs: ["2200Вт", "HEPA 13", "6.5л"],
+                warranty: "36 мес"
+            },
+            {
+                id: 8,
+                title: "Пылесос Electrolux UltraOne",
+                price: 3250000,
+                oldPrice: 3500000,
+                description: "Стильный и мощный пылесос с системой фильтрации 5 в 1.",
+                features: ["Фильтрация 5в1", "Эргономичный дизайн", "Телескопическая трубка", "Насадки для паркета", "Компактный"],
+                rating: 4.5,
+                stock: "В наличии",
+                category: "пылесосы",
+                badge: "Выбор",
+                icon: "wind",
+                specs: ["2000Вт", "5в1 фильтр", "2.5л"],
+                warranty: "24 мес"
+            },
+            {
+                id: 9,
+                title: "Пылесос Zelmer 919.0",
+                price: 1650000,
+                oldPrice: 1850000,
+                description: "Экономичный пылесос с хорошей мощностью и набором насадок.",
+                features: ["Экономичный", "Набор насадок", "Мешок для пыли", "Регулятор мощности", "Компактный"],
+                rating: 4.2,
+                stock: "В наличии",
+                category: "пылесосы",
+                badge: "Эконом",
+                icon: "wind",
+                specs: ["1500Вт", "Мешок", "5 насадок"],
+                warranty: "18 мес"
+            },
+            {
+                id: 10,
+                title: "Пылесос Philips PowerPro",
+                price: 2850000,
+                oldPrice: 3100000,
+                description: "Мощный пылесос с циклонной системой и системой защиты от аллергенов.",
+                features: ["Защита от аллергенов", "Циклонная система", "Мощный двигатель", "Легкий", "Маневренный"],
+                rating: 4.4,
+                stock: "В наличии",
+                category: "пылесосы",
+                badge: "Хит",
+                icon: "wind",
+                specs: ["1800Вт", "Циклон", "Антиаллерген"],
+                warranty: "24 мес"
+            },
+
+            // ХОЛОДИЛЬНИКИ (12 товаров)
+            {
+                id: 11,
+                title: "Холодильник BERO RONKAODESDZM",
+                price: 7848000,
+                oldPrice: 8200000,
+                description: "Вместительный холодильник с системой No Frost. Энергопотребление A++.",
+                features: ["Объем 360л", "No Frost", "Энергокласс A++", "Зона свежести", "Дисплей управления"],
+                rating: 4.7,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Хит продаж",
+                icon: "snowflake",
+                specs: ["360л", "No Frost", "A++"],
+                warranty: "36 мес"
+            },
+            {
+                id: 12,
+                title: "Холодильник Вороса 25DL",
+                price: 2733000,
+                oldPrice: 2900000,
+                description: "Компактный холодильник для дома или офиса. Низкое энергопотребление.",
+                features: ["Объем 250л", "Энергокласс A+", "Авторазморозка", "Гарантия 3 года", "Компактный дизайн"],
+                rating: 4.3,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Эконом",
+                icon: "snowflake",
+                specs: ["250л", "A+", "Компактный"],
+                warranty: "36 мес"
+            },
+            {
+                id: 13,
+                title: "Холодильник Вороса M6 28DL",
+                price: 3027500,
+                oldPrice: 3200000,
+                description: "Двухкамерный холодильник с системой No Frost и зоной свежести.",
+                features: ["No Frost", "Зона свежести", "Энергокласс A++", "Датчик температуры", "Тихий компрессор"],
+                rating: 4.5,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Новинка",
+                icon: "snowflake",
+                specs: ["280л", "No Frost", "A++"],
+                warranty: "36 мес"
+            },
+            {
+                id: 14,
+                title: "Холодильник Висонос L B-12 BOL2",
+                price: 8808000,
+                oldPrice: 9200000,
+                description: "Большой холодильник Side-by-Side с ледогенератором и диспенсером воды.",
+                features: ["Side-by-Side", "Ледогенератор", "Диспенсер воды", "Сенсорный дисплей", "Турбоохлаждение"],
+                rating: 4.9,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Премиум",
+                icon: "snowflake",
+                specs: ["650л", "Side-by-Side", "Ледогенератор"],
+                warranty: "60 мес"
+            },
+            {
+                id: 15,
+                title: "Холодильник Samsung RB4000",
+                price: 12500000,
+                oldPrice: 13500000,
+                description: "Инверторный холодильник с системой Digital Inverter и технологией Space Max.",
+                features: ["Digital Inverter", "Space Max", "Двойной охладитель", "Мульти поток", "Энергокласс A+++"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Топ товар",
+                icon: "snowflake",
+                specs: ["420л", "Инвертор", "A+++"],
+                warranty: "24 мес"
+            },
+            {
+                id: 16,
+                title: "Холодильник LG DoorCooling+",
+                price: 11800000,
+                oldPrice: 12500000,
+                description: "Холодильник с системой DoorCooling+ для равномерного охлаждения.",
+                features: ["DoorCooling+", "Линейный инвертор", "Умный диагноз", "Энергокласс A++", "Сенсорный дисплей"],
+                rating: 4.7,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Хит",
+                icon: "snowflake",
+                specs: ["410л", "DoorCooling+", "A++"],
+                warranty: "24 мес"
+            },
+            {
+                id: 17,
+                title: "Холодильник Bosch VitaFresh",
+                price: 9500000,
+                oldPrice: 10000000,
+                description: "Холодильник с технологией VitaFresh для сохранения свежести продуктов.",
+                features: ["VitaFresh", "No Frost", "SuperCooling", "Энергокласс A++", "Тихий"],
+                rating: 4.6,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Выбор",
+                icon: "snowflake",
+                specs: ["385л", "VitaFresh", "A++"],
+                warranty: "24 мес"
+            },
+            {
+                id: 18,
+                title: "Холодильник Haier Total No Frost",
+                price: 6800000,
+                oldPrice: 7200000,
+                description: "Холодильник с системой Total No Frost и режимом отпуска.",
+                features: ["Total No Frost", "Режим отпуска", "Энергокласс A+", "Система вентиляции", "Компактный"],
+                rating: 4.4,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Скидка",
+                icon: "snowflake",
+                specs: ["320л", "No Frost", "A+"],
+                warranty: "36 мес"
+            },
+            {
+                id: 19,
+                title: "Холодильник Indesit TT8",
+                price: 4200000,
+                oldPrice: 4500000,
+                description: "Двухкамерный холодильник с ручной разморозкой морозильной камеры.",
+                features: ["Ручная разморозка", "Энергокласс A+", "Система вентиляции", "Регулируемые полки", "Ящики для овощей"],
+                rating: 4.2,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Эконом",
+                icon: "snowflake",
+                specs: ["280л", "A+", "Ручная разморозка"],
+                warranty: "24 мес"
+            },
+            {
+                id: 20,
+                title: "Холодильник Ariston HF4200",
+                price: 5200000,
+                oldPrice: 5600000,
+                description: "Холодильник с системой No Frost и зоной свежести Zero Degree.",
+                features: ["No Frost", "Zero Degree", "Энергокласс A++", "Антибактериальное покрытие", "LED подсветка"],
+                rating: 4.5,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Новинка",
+                icon: "snowflake",
+                specs: ["340л", "No Frost", "A++"],
+                warranty: "24 мес"
+            },
+            {
+                id: 21,
+                title: "Холодильник Sharp SJ-F80",
+                price: 15800000,
+                oldPrice: 16800000,
+                description: "Премиальный холодильник с технологией Plasmacluster и сенсорным управлением.",
+                features: ["Plasmacluster", "Сенсорный дисплей", "Умное охлаждение", "Энергокласс A+++", "Автоматический лед"],
+                rating: 4.9,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Премиум",
+                icon: "snowflake",
+                specs: ["600л", "Plasmacluster", "A+++"],
+                warranty: "60 мес"
+            },
+            {
+                id: 22,
+                title: "Холодильник Gorenje NRK620",
+                price: 7200000,
+                oldPrice: 7800000,
+                description: "Холодильник с технологией IonAir и системой динамического охлаждения.",
+                features: ["IonAir", "Динамическое охлаждение", "No Frost", "Энергокласс A++", "Режим суперзаморозки"],
+                rating: 4.6,
+                stock: "В наличии",
+                category: "холодильники",
+                badge: "Хит",
+                icon: "snowflake",
+                specs: ["385л", "IonAir", "A++"],
+                warranty: "36 мес"
+            },
+
+            // КОНДИЦИОНЕРЫ (8 товаров)
+            {
+                id: 23,
+                title: "Кондиционер LG UP-SARC / US49NC1",
+                price: 30375000,
+                oldPrice: 32000000,
+                description: "Инверторный кондиционер с Wi-Fi управлением. Экономичный и тихий.",
+                features: ["Инверторный", "Wi-Fi управление", "Обслуживание 25м²", "Тихий режим 19дБ", "Автоочистка"],
+                rating: 4.9,
+                stock: "В наличии",
+                category: "кондиционеры",
+                badge: "Премиум",
+                icon: "snowflake",
+                specs: ["24000 BTU", "Инвертор", "Wi-Fi"],
+                warranty: "36 мес"
+            },
+            {
+                id: 24,
+                title: "Кондиционер Samsung WindFree",
+                price: 28500000,
+                oldPrice: 30000000,
+                description: "Кондиционер с технологией WindFree для комфортного охлаждения без сквозняков.",
+                features: ["WindFree", "Инвертор", "Фильтр от вирусов", "Умный режим", "Тихий 21дБ"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "кондиционеры",
+                badge: "Топ товар",
+                icon: "snowflake",
+                specs: ["24000 BTU", "WindFree", "Инвертор"],
+                warranty: "36 мес"
+            },
+            {
+                id: 25,
+                title: "Кондиционер Daikin FTXB",
+                price: 27500000,
+                oldPrice: 29000000,
+                description: "Надежный инверторный кондиционер от японского производителя.",
+                features: ["Японский компрессор", "Инвертор", "Турбо режим", "Авторестарт", "Низкий уровень шума"],
+                rating: 4.9,
+                stock: "В наличии",
+                category: "кондиционеры",
+                badge: "Хит продаж",
+                icon: "snowflake",
+                specs: ["24000 BTU", "Daikin", "Инвертор"],
+                warranty: "60 мес"
+            },
+            {
+                id: 26,
+                title: "Кондиционер Midea MSAB",
+                price: 18500000,
+                oldPrice: 20000000,
+                description: "Экономичный инверторный кондиционер с функцией самодиагностики.",
+                features: ["Инвертор", "Самодиагностика", "Авторестарт", "Таймер", "Ночной режим"],
+                rating: 4.5,
+                stock: "В наличии",
+                category: "кондиционеры",
+                badge: "Выбор",
+                icon: "snowflake",
+                specs: ["18000 BTU", "Инвертор", "Эконом"],
+                warranty: "24 мес"
+            },
+            {
+                id: 27,
+                title: "Кондиционер Gree U-Crown",
+                price: 22500000,
+                oldPrice: 24000000,
+                description: "Инверторный кондиционер премиум-класса с системой самоочистки.",
+                features: ["Самоочистка", "Инвертор", "Wi-Fi модуль", "Ионизация", "Умный глаз"],
+                rating: 4.7,
+                stock: "В наличии",
+                category: "кондиционеры",
+                badge: "Новинка",
+                icon: "snowflake",
+                specs: ["24000 BTU", "Инвертор", "Самоочистка"],
+                warranty: "36 мес"
+            },
+            {
+                id: 28,
+                title: "Кондиционер Panasonic CS",
+                price: 26500000,
+                oldPrice: 28000000,
+                description: "Кондиционер с технологией nanoe™ X для очистки воздуха.",
+                features: ["nanoe™ X", "Инвертор", "Экономичный", "Тихий 22дБ", "Автоочистка"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "кондиционеры",
+                badge: "Премиум",
+                icon: "snowflake",
+                specs: ["24000 BTU", "nanoe™ X", "Инвертор"],
+                warranty: "36 мес"
+            },
+            {
+                id: 29,
+                title: "Кондиционер Hisense Eco",
+                price: 15500000,
+                oldPrice: 17000000,
+                description: "Бюджетный инверторный кондиционер с хорошей производительностью.",
+                features: ["Инвертор", "Авторестарт", "Таймер", "Турбо режим", "Ночной режим"],
+                rating: 4.4,
+                stock: "В наличии",
+                category: "кондиционеры",
+                badge: "Эконом",
+                icon: "snowflake",
+                specs: ["12000 BTU", "Инвертор", "Бюджет"],
+                warranty: "24 мес"
+            },
+            {
+                id: 30,
+                title: "Кондиционер Toshiba RAS",
+                price: 24500000,
+                oldPrice: 26000000,
+                description: "Надежный кондиционер с японским качеством и длительной гарантией.",
+                features: ["Японское качество", "Инвертор", "Фильтр от пыли", "Автоочистка", "Тихий 20дБ"],
+                rating: 4.7,
+                stock: "В наличии",
+                category: "кондиционеры",
+                badge: "Хит",
+                icon: "snowflake",
+                specs: ["24000 BTU", "Toshiba", "Инвертор"],
+                warranty: "60 мес"
+            },
+
+            // СТИРАЛЬНЫЕ МАШИНЫ (10 товаров)
+            {
+                id: 31,
+                title: "Стиральная машина BERO NIPEGAVANA X80",
+                price: 3988000,
+                oldPrice: 4200000,
+                description: "Стиральная машина с загрузкой 8кг. Множество программ стирки.",
+                features: ["Загрузка 8кг", "1200 об/мин", "14 программ", "Защита от протечек", "Таймер отсрочки"],
+                rating: 4.6,
+                stock: "В наличии",
+                category: "стиральные машины",
+                badge: "Выбор покупателей",
+                icon: "washer",
+                specs: ["8кг", "1200 об/мин", "14 программ"],
+                warranty: "36 мес"
+            },
+            {
+                id: 32,
+                title: "Стиральная машина LG F4V5",
+                price: 6850000,
+                oldPrice: 7200000,
+                description: "Стиральная машина с технологией Direct Drive и парной стиркой.",
+                features: ["Direct Drive", "Парная стирка", "Умная диагностика", "Энергокласс A+++", "Защита от детей"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "стиральные машины",
+                badge: "Топ товар",
+                icon: "washer",
+                specs: ["9кг", "1400 об/мин", "Direct Drive"],
+                warranty: "36 мес"
+            },
+            {
+                id: 33,
+                title: "Стиральная машина Samsung WW90",
+                price: 7250000,
+                oldPrice: 7600000,
+                description: "Стиральная машина с технологией EcoBubble и добавлением пара.",
+                features: ["EcoBubble", "Добавление пара", "Цифровой инвертор", "Энергокласс A+++", "Большой дисплей"],
+                rating: 4.7,
+                stock: "В наличии",
+                category: "стиральные машины",
+                badge: "Хит",
+                icon: "washer",
+                specs: ["9кг", "1400 об/мин", "EcoBubble"],
+                warranty: "24 мес"
+            },
+            {
+                id: 34,
+                title: "Стиральная машина Bosch WAU",
+                price: 6200000,
+                oldPrice: 6500000,
+                description: "Надежная стиральная машина с системой AntiVibration и программой для спортивной одежды.",
+                features: ["AntiVibration", "Для спортивной одежды", "Энергокласс A+++", "Защита от протечек", "Быстрая стирка"],
+                rating: 4.6,
+                stock: "В наличии",
+                category: "стиральные машины",
+                badge: "Выбор",
+                icon: "washer",
+                specs: ["8кг", "1200 об/мин", "AntiVibration"],
+                warranty: "24 мес"
+            },
+            {
+                id: 35,
+                title: "Стиральная машина Indesit BTW",
+                price: 3250000,
+                oldPrice: 3500000,
+                description: "Экономичная стиральная машина с хорошим набором программ.",
+                features: ["Экономичная", "15 программ", "Защита от протечек", "Отсрочка старта", "Дисплей"],
+                rating: 4.3,
+                stock: "В наличии",
+                category: "стиральные машины",
+                badge: "Эконом",
+                icon: "washer",
+                specs: ["7кг", "1000 об/мин", "15 программ"],
+                warranty: "24 мес"
+            },
+            {
+                id: 36,
+                title: "Стиральная машина Electrolux PerfectCare",
+                price: 5800000,
+                oldPrice: 6200000,
+                description: "Стиральная машина с технологией PerfectCare для деликатных тканей.",
+                features: ["PerfectCare", "Для деликатных тканей", "Энергокласс A+++", "Ультратихая", "Сенсорный дисплей"],
+                rating: 4.7,
+                stock: "В наличии",
+                category: "стиральные машины",
+                badge: "Новинка",
+                icon: "washer",
+                specs: ["8кг", "1200 об/мин", "PerfectCare"],
+                warranty: "24 мес"
+            },
+            {
+                id: 37,
+                title: "Стиральная машина Candy Smart",
+                price: 3850000,
+                oldPrice: 4200000,
+                description: "Умная стиральная машина с подключением к Wi-Fi и голосовым управлением.",
+                features: ["Умная", "Wi-Fi", "Голосовое управление", "20 программ", "Быстрая стирка"],
+                rating: 4.5,
+                stock: "В наличии",
+                category: "стиральные машины",
+                badge: "Скидка",
+                icon: "washer",
+                specs: ["7кг", "1000 об/мин", "Wi-Fi"],
+                warranty: "24 мес"
+            },
+            {
+                id: 38,
+                title: "Стиральная машина Whirlpool FreshCare",
+                price: 5200000,
+                oldPrice: 5600000,
+                description: "Стиральная машина с технологией FreshCare+ для предотвращения образования складок.",
+                features: ["FreshCare+", "6-е чувство", "Энергокласс A+++", "Защита от накипи", "Таймер"],
+                rating: 4.6,
+                stock: "В наличии",
+                category: "стиральные машины",
+                badge: "Хит",
+                icon: "washer",
+                specs: ["8кг", "1200 об/мин", "FreshCare+"],
+                warranty: "24 мес"
+            },
+            {
+                id: 39,
+                title: "Стиральная машина Arçelik 9103",
+                price: 4500000,
+                oldPrice: 4800000,
+                description: "Стиральная машина с функцией сушки и большим набором программ.",
+                features: ["С функцией сушки", "16 программ", "Инверторный двигатель", "Защита от детей", "Быстрая сушка"],
+                rating: 4.4,
+                stock: "В наличии",
+                category: "стиральные машины",
+                badge: "Выбор",
+                icon: "washer",
+                specs: ["9кг/5кг", "1400 об/мин", "Сушка"],
+                warranty: "24 мес"
+            },
+            {
+                id: 40,
+                title: "Стиральная машина Siemens iQ500",
+                price: 8200000,
+                oldPrice: 8800000,
+                description: "Премиальная стиральная машина с технологией i-Dos и сенсорным управлением.",
+                features: ["i-Dos", "Сенсорный дисплей", "Энергокласс A+++", "Автоматическое дозирование", "Тихая"],
+                rating: 4.9,
+                stock: "В наличии",
+                category: "стиральные машины",
+                badge: "Премиум",
+                icon: "washer",
+                specs: ["9кг", "1400 об/мин", "i-Dos"],
+                warranty: "36 мес"
+            },
+
+            // ТЕЛЕВИЗОРЫ (8 товаров)
+            {
+                id: 41,
+                title: "Телевизор TOMSKY SC250",
+                price: 3623500,
+                oldPrice: 3800000,
+                description: "Умный телевизор с диагональю 50 дюймов. Поддержка 4K и Smart TV.",
+                features: ["Диагональ 50\"", "4K UHD", "Smart TV", "HDR10", "3x HDMI"],
+                rating: 4.4,
+                stock: "В наличии",
+                category: "телевизоры",
+                badge: "Скидка",
+                icon: "tv",
+                specs: ["50\"", "4K", "Smart TV"],
+                warranty: "24 мес"
+            },
+            {
+                id: 42,
+                title: "Телевизор Samsung QLED Q80",
+                price: 18500000,
+                oldPrice: 20000000,
+                description: "Телевизор с QLED матрицей и технологией Quantum HDR.",
+                features: ["QLED", "Quantum HDR", "Smart TV", "4K", "Object Tracking Sound"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "телевизоры",
+                badge: "Топ товар",
+                icon: "tv",
+                specs: ["55\"", "QLED", "4K"],
+                warranty: "24 мес"
+            },
+            {
+                id: 43,
+                title: "Телевизор LG OLED C2",
+                price: 22500000,
+                oldPrice: 24000000,
+                description: "OLED телевизор с идеальным черным цветом и технологией α9 Gen5.",
+                features: ["OLED", "α9 Gen5", "Smart TV", "4K", "Dolby Vision IQ"],
+                rating: 4.9,
+                stock: "В наличии",
+                category: "телевизоры",
+                badge: "Премиум",
+                icon: "tv",
+                specs: ["55\"", "OLED", "4K"],
+                warranty: "24 мес"
+            },
+            {
+                id: 44,
+                title: "Телевизор Sony BRAVIA XR",
+                price: 24500000,
+                oldPrice: 26000000,
+                description: "Телевизор с процессором Cognitive Processor XR и технологией Acoustic Surface Audio+.",
+                features: ["Cognitive XR", "Acoustic Surface", "Smart TV", "4K", "Google TV"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "телевизоры",
+                badge: "Хит",
+                icon: "tv",
+                specs: ["55\"", "BRAVIA", "4K"],
+                warranty: "24 мес"
+            },
+            {
+                id: 45,
+                title: "Телевизор Xiaomi Mi TV P1",
+                price: 6500000,
+                oldPrice: 7000000,
+                description: "Доступный Smart TV с хорошим качеством изображения и голосовым управлением.",
+                features: ["Smart TV", "Голосовое управление", "4K", "PatchWall", "Минимальные рамки"],
+                rating: 4.5,
+                stock: "В наличии",
+                category: "телевизоры",
+                badge: "Выбор",
+                icon: "tv",
+                specs: ["50\"", "4K", "Smart TV"],
+                warranty: "24 мес"
+            },
+            {
+                id: 46,
+                title: "Телевизор Philips Ambilight",
+                price: 9500000,
+                oldPrice: 10500000,
+                description: "Телевизор с технологией Ambilight для создания атмосферного освещения.",
+                features: ["Ambilight", "P5 процессор", "Smart TV", "4K", "HDR10+"],
+                rating: 4.7,
+                stock: "В наличии",
+                category: "телевизоры",
+                badge: "Новинка",
+                icon: "tv",
+                specs: ["55\"", "Ambilight", "4K"],
+                warranty: "24 мес"
+            },
+            {
+                id: 47,
+                title: "Телевизор TCL C725",
+                price: 7200000,
+                oldPrice: 8000000,
+                description: "Телевизор с технологией QLED и поддержкой Dolby Vision.",
+                features: ["QLED", "Dolby Vision", "Smart TV", "4K", "Game Master"],
+                rating: 4.6,
+                stock: "В наличии",
+                category: "телевизоры",
+                badge: "Скидка",
+                icon: "tv",
+                specs: ["55\"", "QLED", "4K"],
+                warranty: "24 мес"
+            },
+            {
+                id: 48,
+                title: "Телевизор Hisense ULED",
+                price: 8500000,
+                oldPrice: 9200000,
+                description: "Телевизор с технологией ULED и квантовыми точками.",
+                features: ["ULED", "Квантовые точки", "Smart TV", "4K", "Full Array Local Dimming"],
+                rating: 4.6,
+                stock: "В наличии",
+                category: "телевизоры",
+                badge: "Хит",
+                icon: "tv",
+                specs: ["55\"", "ULED", "4K"],
+                warranty: "24 мес"
+            },
+
+            // КОМПЬЮТЕРЫ И НАКОПИТЕЛИ (6 товаров)
+            {
+                id: 49,
+                title: "SSD накопитель SAMSUNG 4TB",
+                price: 3986800,
+                oldPrice: 4200000,
+                description: "Высокоскоростной SSD накопитель для игр и профессиональных задач.",
+                features: ["4TB объем", "Скорость чтения 7000МБ/с", "NVMe", "Гарантия 5 лет", "Кэш-память"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "компьютеры",
+                badge: "Топ товар",
+                icon: "hdd",
+                specs: ["4TB", "NVMe", "7000МБ/с"],
+                warranty: "60 мес"
+            },
+            {
+                id: 50,
+                title: "Ноутбук ASUS ROG Zephyrus",
+                price: 28500000,
+                oldPrice: 30000000,
+                description: "Игровой ноутбук с процессором Intel i9 и видеокартой RTX 4080.",
+                features: ["Intel i9", "RTX 4080", "32GB RAM", "2TB SSD", "240Hz экран"],
+                rating: 4.9,
+                stock: "В наличии",
+                category: "компьютеры",
+                badge: "Премиум",
+                icon: "laptop",
+                specs: ["i9", "RTX 4080", "32GB"],
+                warranty: "24 мес"
+            },
+            {
+                id: 51,
+                title: "Ноутбук Apple MacBook Pro",
+                price: 32500000,
+                oldPrice: 35000000,
+                description: "Профессиональный ноутбук с чипом M2 Pro и дисплеем Liquid Retina XDR.",
+                features: ["M2 Pro", "Liquid Retina XDR", "16GB RAM", "1TB SSD", "macOS"],
+                rating: 4.9,
+                stock: "В наличии",
+                category: "компьютеры",
+                badge: "Хит продаж",
+                icon: "laptop",
+                specs: ["M2 Pro", "16\"", "1TB"],
+                warranty: "12 мес"
+            },
+            {
+                id: 52,
+                title: "Игровая консоль PlayStation 5",
+                price: 12500000,
+                oldPrice: 13500000,
+                description: "Новейшая игровая консоль с поддержкой 4K и технологией Ray Tracing.",
+                features: ["4K", "Ray Tracing", "825GB SSD", "DualSense", "3D Audio"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "компьютеры",
+                badge: "Хит",
+                icon: "gamepad",
+                specs: ["PS5", "825GB", "4K"],
+                warranty: "12 мес"
+            },
+            {
+                id: 53,
+                title: "Монитор Samsung Odyssey G9",
+                price: 18500000,
+                oldPrice: 20000000,
+                description: "Игровой монитор с изогнутым экраном 49\" и частотой 240Hz.",
+                features: ["49\" изогнутый", "240Hz", "QLED", "1ms", "HDR2000"],
+                rating: 4.7,
+                stock: "В наличии",
+                category: "компьютеры",
+                badge: "Топ товар",
+                icon: "desktop",
+                specs: ["49\"", "240Hz", "QLED"],
+                warranty: "24 мес"
+            },
+            {
+                id: 54,
+                title: "Внешний жесткий диск WD 5TB",
+                price: 1850000,
+                oldPrice: 2000000,
+                description: "Внешний жесткий диск с большой емкостью и защитой от ударов.",
+                features: ["5TB", "USB 3.0", "Защита от ударов", "Автоматическое резервное копирование", "Компактный"],
+                rating: 4.5,
+                stock: "В наличии",
+                category: "компьютеры",
+                badge: "Выбор",
+                icon: "hdd",
+                specs: ["5TB", "USB 3.0", "Внешний"],
+                warranty: "36 мес"
+            },
+
+            // КУХОННАЯ ТЕХНИКА (6 товаров)
+            {
+                id: 55,
+                title: "Микроволновая печь Samsung MC28",
+                price: 1850000,
+                oldPrice: 2000000,
+                description: "Микроволновая печь с грилем и функцией конвекции.",
+                features: ["Гриль", "Конвекция", "28л", "Электронное управление", "10 уровней мощности"],
+                rating: 4.4,
+                stock: "В наличии",
+                category: "кухонная техника",
+                badge: "Хит",
+                icon: "microwave",
+                specs: ["28л", "Гриль", "Конвекция"],
+                warranty: "24 мес"
+            },
+            {
+                id: 56,
+                title: "Кофемашина De'Longhi Magnifica",
+                price: 12500000,
+                oldPrice: 13500000,
+                description: "Автоматическая кофемашина для приготовления эспрессо и капучино.",
+                features: ["Автоматическая", "Для эспрессо и капучино", "Мельница", "Панель управления", "Быстрый нагрев"],
+                rating: 4.8,
+                stock: "В наличии",
+                category: "кухонная техника",
+                badge: "Премиум",
+                icon: "coffee",
+                specs: ["Автомат", "Мельница", "Капучино"],
+                warranty: "24 мес"
+            },
+            {
+                id: 57,
+                title: "Блендер Philips HR3752",
+                price: 1850000,
+                oldPrice: 2000000,
+                description: "Мощный блендер с функцией измельчения льда и турборежимом.",
+                features: ["1400Вт", "Измельчение льда", "Турборежим", "Ножи ProBlend", "Стакан 2л"],
+                rating: 4.5,
+                stock: "В наличии",
+                category: "кухонная техника",
+                badge: "Выбор",
+                icon: "blender",
+                specs: ["1400Вт", "2л", "Измельчение льда"],
+                warranty: "24 мес"
+            },
+            {
+                id: 58,
+                title: "Мультиварка Redmond RMC",
+                price: 1250000,
+                oldPrice: 1400000,
+                description: "Мультиварка с 15 программами и отложенным стартом.",
+                features: ["15 программ", "Отложенный старт", "5л", "Пароварка", "Поддержание тепла"],
+                rating: 4.6,
+                stock: "В наличии",
+                category: "кухонная техника",
+                badge: "Скидка",
+                icon: "utensils",
+                specs: ["5л", "15 программ", "Пароварка"],
+                warranty: "24 мес"
+            },
+            {
+                id: 59,
+                title: "Посудомоечная машина Bosch SMS",
+                price: 8500000,
+                oldPrice: 9000000,
+                description: "Встраиваемая посудомоечная машина с экономичным потреблением воды.",
+                features: ["Встраиваемая", "Экономичная", "12 комплектов", "Тихая", "Датчик чистоты"],
+                rating: 4.7,
+                stock: "В наличии",
+                category: "кухонная техника",
+                badge: "Хит",
+                icon: "utensil-spoon",
+                specs: ["12 комплектов", "Встраиваемая", "Эконом"],
+                warranty: "24 мес"
+            },
+            {
+                id: 60,
+                title: "Электрическая плита Hansa FCCW",
+                price: 6500000,
+                oldPrice: 7000000,
+                description: "Электрическая плита с духовкой и стеклокерамической варочной панелью.",
+                features: ["Стеклокерамика", "Духовка", "Таймер", "Гриль", "Конвекция"],
+                rating: 4.5,
+                stock: "В наличии",
+                category: "кухонная техника",
+                badge: "Новинка",
+                icon: "fire",
+                specs: ["4 конфорки", "Духовка", "Стеклокерамика"],
+                warranty: "24 мес"
+            }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('elvon_cart')) || [];
+        let usdMode = false;
+        let currentFilter = 'all';
+
+        const productsGrid = document.getElementById('productsGrid');
+        const cartIcon = document.getElementById('cartIcon');
+        const cartCount = document.getElementById('cartCount');
+        const cartModal = document.getElementById('cartModal');
+        const closeCartModal = document.getElementById('closeCartModal');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const productDetailModal = document.getElementById('productDetailModal');
+        const closeDetailModal = document.getElementById('closeDetailModal');
+        const productDetailBody = document.getElementById('productDetailBody');
+        const orderModal = document.getElementById('orderModal');
+        const closeOrderModal = document.getElementById('closeOrderModal');
+        const orderForm = document.getElementById('orderForm');
+        const orderSummary = document.getElementById('orderSummary');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const notification = document.getElementById('notification');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts();
+            updateCartCount();
+            
+            cartIcon.addEventListener('click', openCartModal);
+            closeCartModal.addEventListener('click', () => closeModal(cartModal));
+            closeDetailModal.addEventListener('click', () => closeModal(productDetailModal));
+            closeOrderModal.addEventListener('click', () => closeModal(orderModal));
+            checkoutBtn.addEventListener('click', openOrderModal);
+            orderForm.addEventListener('submit', submitOrder);
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === cartModal) closeModal(cartModal);
+                if (event.target === productDetailModal) closeModal(productDetailModal);
+                if (event.target === orderModal) closeModal(orderModal);
+            });
+        });
+
+        function filterProducts(filter) {
+            currentFilter = filter;
+            
+            // Обновляем активную кнопку
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderProducts();
+        }
+
+        function renderProducts() {
+            productsGrid.innerHTML = '';
+            
+            let filteredProducts = products;
+            
+            // Применяем фильтры
+            if (currentFilter === 'hit') {
+                filteredProducts = products.filter(p => p.badge === 'Хит продаж' || p.badge === 'Топ товар' || p.badge === 'Хит');
+            } else if (currentFilter === 'new') {
+                filteredProducts = products.filter(p => p.badge === 'Новинка');
+            } else if (currentFilter === 'discount') {
+                filteredProducts = products.filter(p => p.oldPrice && p.oldPrice > p.price);
+            } else if (currentFilter === 'cheap') {
+                filteredProducts = products.filter(p => p.price < 5000000);
+            } else if (currentFilter === 'expensive') {
+                filteredProducts = products.filter(p => p.price > 10000000);
+            }
+            
+            // Ограничиваем показ до 48 товаров
+            const displayProducts = filteredProducts.slice(0, 48);
+            
+            if (displayProducts.length === 0) {
+                productsGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                        <i class="fas fa-search" style="font-size: 64px; color: #ddd; margin-bottom: 20px;"></i>
+                        <h3 style="color: #666;">Товары не найдены</h3>
+                        <p style="color: #888;">Попробуйте изменить фильтры поиска</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            displayProducts.forEach(product => {
+                const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0;
+                
+                const productElement = document.createElement('div');
+                productElement.className = 'product-card';
+                productElement.innerHTML = `
+                    ${product.badge ? `<div class="product-badge ${product.badge === 'Топ товар' || product.badge === 'Премиум' ? 'top' : product.badge === 'Новинка' ? 'new' : product.badge === 'Хит продаж' ? 'hot' : ''}">${product.badge}</div>` : ''}
+                    <div class="product-image">
+                        <i class="fas fa-${product.icon} product-icon"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <div class="product-brand">
+                            <i class="fas fa-tag"></i> ${getBrandName(product.title)}
+                            ${product.warranty ? `<span class="warranty-badge">${product.warranty}</span>` : ''}
+                        </div>
+                        <div class="rating">
+                            <span class="rating-stars">
+                                ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                            </span>
+                            <span class="rating-count">${product.rating.toFixed(1)}</span>
+                        </div>
+                        <div class="stock ${product.stock === 'В наличии' ? '' : 'out'}">
+                            <i class="fas fa-${product.stock === 'В наличии' ? 'check-circle' : 'times-circle'}"></i> ${product.stock}
+                        </div>
+                        <div class="product-description">${product.description}</div>
+                        
+                        ${product.specs ? `
+                            <div class="product-specs">
+                                ${product.specs.map(spec => `<span class="spec-item">${spec}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="product-price">
+                            <div class="price-amount">
+                                <span>${formatPrice(product.price)}</span>
+                                ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
+                                ${discount > 0 ? `<span class="discount-badge">-${discount}%</span>` : ''}
+                                <button class="usd-toggle" onclick="toggleUsdMode()">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-actions">
+                            <button class="add-to-cart" onclick="addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i> В корзину
+                            </button>
+                            <button class="view-details" onclick="viewProductDetail(${product.id})">
+                                <i class="fas fa-info-circle"></i> Подробнее
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(productElement);
+            });
+        }
+
+        function getBrandName(title) {
+            const brands = ['Samsung', 'LG', 'Sony', 'Philips', 'Bosch', 'Electrolux', 'Whirlpool', 'Indesit', 'Ariston', 'Haier', 'Toshiba', 'Panasonic', 'Sharp', 'Gorenje', 'Midea', 'Gree', 'Hisense', 'TCL', 'Xiaomi', 'Apple', 'ASUS', 'De\'Longhi', 'Redmond', 'Hansa', 'BERO', 'Вороса', 'Висонос', 'TOMSKY'];
+            
+            for (const brand of brands) {
+                if (title.includes(brand)) {
+                    return brand;
+                }
+            }
+            return 'ELVON';
+        }
+
+        function getProductIcon(productId) {
+            const product = products.find(p => p.id === productId);
+            return product ? product.icon : 'box';
+        }
+
+        function formatPrice(price) {
+            if (usdMode) {
+                const usdPrice = (price / EXCHANGE_RATE).toFixed(2);
+                return `${usdPrice} USD`;
+            }
+            return `${price.toLocaleString('ru-RU')} сум`;
+        }
+
+        function toggleUsdMode() {
+            usdMode = !usdMode;
+            renderProducts();
+            updateCartDisplay();
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    title: product.title,
+                    price: product.price,
+                    quantity: 1,
+                    icon: product.icon
+                });
+            }
+            
+            saveCart();
+            updateCartCount();
+            showNotification('Товар добавлен в корзину!');
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+            updateCartCount();
+            updateCartDisplay();
+        }
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        function saveCart() {
+            localStorage.setItem('elvon_cart', JSON.stringify(cart));
+        }
+
+        function openCartModal() {
+            updateCartDisplay();
+            cartModal.style.display = 'flex';
+        }
+
+        function updateCartDisplay() {
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Корзина пуста</h3>
+                        <p>Добавьте товары, чтобы оформить заказ</p>
+                    </div>
+                `;
+                cartTotal.textContent = '0';
+                return;
+            }
+            
+            let itemsHTML = '';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                itemsHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-image">
+                                <i class="fas fa-${item.icon || getProductIcon(item.id)}"></i>
+                            </div>
+                            <div>
+                                <div class="cart-item-title">${item.title}</div>
+                                <div>${item.quantity} x ${formatPrice(item.price)}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+                            <button class="remove-item" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartItems.innerHTML = itemsHTML;
+            cartTotal.textContent = formatPrice(total);
+        }
+
+        function viewProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) return;
+            
+            productDetailBody.innerHTML = `
+                <div class="product-detail">
+                    <div class="product-detail-image">
+                        <i class="fas fa-${product.icon} product-icon"></i>
+                    </div>
+                    <div class="product-detail-info">
+                        <h2 class="product-detail-title">${product.title}</h2>
+                        <div class="product-brand" style="margin-bottom: 15px;">
+                            <i class="fas fa-tag"></i> ${getBrandName(product.title)}
+                            ${product.warranty ? `<span class="warranty-badge">Гарантия ${product.warranty}</span>` : ''}
+                        </div>
+                        <div class="rating" style="margin-bottom: 15px;">
+                            <span class="rating-stars" style="font-size: 20px;">
+                                ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                            </span>
+                            <span class="rating-count" style="font-size: 18px;">${product.rating.toFixed(1)}</span>
+                        </div>
+                        <div class="stock ${product.stock === 'В наличии' ? '' : 'out'}" style="margin-bottom: 20px;">
+                            <i class="fas fa-${product.stock === 'В наличии' ? 'check-circle' : 'times-circle'}"></i> ${product.stock}
+                        </div>
+                        <p class="product-detail-description">${product.description}</p>
+                        <div class="product-detail-price">
+                            ${formatPrice(product.price)}
+                            ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
+                            <button class="usd-toggle" onclick="toggleUsdMode()">
+                                <i class="fas fa-dollar-sign"></i> Конвертировать в USD
+                            </button>
+                        </div>
+                        <button class="btn" onclick="addToCart(${product.id}); closeModal(productDetailModal);" style="padding: 15px 30px; font-size: 18px; margin-bottom: 20px;">
+                            <i class="fas fa-cart-plus"></i> Добавить в корзину
+                        </button>
+                        ${product.specs ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: #333; margin-bottom: 10px;">Основные характеристики:</h4>
+                                <div class="product-specs">
+                                    ${product.specs.map(spec => `<span class="spec-item">${spec}</span>`).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        <div class="features">
+                            <h4>Подробные характеристики:</h4>
+                            <ul>
+                                ${product.features.map(feature => `<li>${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('detailTitle').textContent = product.title;
+            productDetailModal.style.display = 'flex';
+        }
+
+        function openOrderModal() {
+            if (cart.length === 0) {
+                showNotification('Добавьте товары в корзину!');
+                return;
+            }
+            
+            let summaryHTML = '<h4>Ваш заказ:</h4>';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                summaryHTML += `
+                    <div class="order-item">
+                        <span>${item.title} (${item.quantity} шт.)</span>
+                        <span>${formatPrice(itemTotal)}</span>
+                    </div>
+                `;
+            });
+            
+            summaryHTML += `
+                <div class="order-total">
+                    <span>Итого:</span>
+                    <span>${formatPrice(total)}</span>
+                </div>
+            `;
+            
+            orderSummary.innerHTML = summaryHTML;
+            closeModal(cartModal);
+            orderModal.style.display = 'flex';
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const comment = document.getElementById('comment').value;
+            
+            if (!name || !phone) {
+                showNotification('Пожалуйста, заполните обязательные поля!');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            const order = {
+                id: Date.now(),
+                date: new Date().toLocaleString('ru-RU'),
+                customer: { name, phone, address, comment },
+                items: [...cart],
+                total: total,
+                status: 'новый'
+            };
+            
+            saveOrder(order);
+            
+            // Отправка заказа в "бот"
+            sendToBot(order);
+            
+            cart = [];
+            saveCart();
+            updateCartCount();
+            
+            showNotification('Заказ оформлен! Диспетчер свяжется с вами.');
+            
+            closeModal(orderModal);
+            orderForm.reset();
+        }
+
+        function saveOrder(order) {
+            let orders = JSON.parse(localStorage.getItem('elvon_orders')) || [];
+            orders.push(order);
+            localStorage.setItem('elvon_orders', JSON.stringify(orders));
+        }
+
+        function sendToBot(order) {
+            let message = "🛒 НОВЫЙ ЗАКАЗ ELVON 🛒\n\n";
+            message += `📋 ID заказа: ${order.id}\n`;
+            message += `📅 Дата: ${order.date}\n\n`;
+            message += `👤 КЛИЕНТ:\n`;
+            message += `• ФИО: ${order.customer.name}\n`;
+            message += `• Телефон: ${order.customer.phone}\n`;
+            
+            if (order.customer.address) {
+                message += `• Адрес: ${order.customer.address}\n`;
+            }
+            
+            message += `\n🛍️ ТОВАРЫ:\n`;
+            order.items.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                message += `${index + 1}. ${item.title}\n`;
+                message += `   Количество: ${item.quantity} шт.\n`;
+                message += `   Цена: ${item.price.toLocaleString()} сум\n`;
+                message += `   Сумма: ${itemTotal.toLocaleString()} сум\n\n`;
+            });
+            
+            message += `💰 ИТОГО: ${order.total.toLocaleString()} сум\n\n`;
+            
+            if (order.customer.comment) {
+                message += `💬 Комментарий: ${order.customer.comment}\n\n`;
+            }
+            
+            message += `📞 СРОЧНО ПОЗВОНИТЬ КЛИЕНТУ!`;
+            
+            console.log("Заказ отправлен в бот:\n", message);
+            
+            // Для реального использования:
+            /*
+            const BOT_TOKEN = 'ВАШ_ТОКЕН';
+            const CHAT_ID = 'ВАШ_CHAT_ID';
+            
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            });
+            */
+        }
+
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function closeModal(modal) {
+            modal.style.display = 'none';
+        }
+
+        window.toggleUsdMode = toggleUsdMode;
+        window.addToCart = addToCart;
+        window.removeFromCart = removeFromCart;
+        window.viewProductDetail = viewProductDetail;
+        window.filterProducts = filterProducts;
+      
+
+;
+    </script>
+    <script src="dark-mode-fixed.js"></script>  
+</body>
+</html>
